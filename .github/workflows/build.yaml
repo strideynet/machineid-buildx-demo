@@ -1,0 +1,34 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  demo:
+    permissions:
+      # The "id-token: write" permission is required or Machine ID will not be able to authenticate with the cluster.
+      id-token: write
+      contents: read
+    # The name of the workflow, and the Linux distro to be used to perform the required steps.
+    name: guide-demo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install Kubectl
+        uses: azure/setup-kubectl@v3
+      - name: Fetch Teleport binaries
+        uses: teleport-actions/setup@v1
+        with:
+          version: 13.0.3
+      - name: Fetch credentials using Machine ID
+        id: auth
+        uses: teleport-actions/auth-k8s@v1
+        with:
+          # Use the address of the auth/proxy server for your own cluster.
+          proxy: noah.teleport.sh:443
+          token: machineid-buildx-demo
+          certificate-ttl: 1h
+          # Enable the submission of anonymous usage telemetry.
+          anonymous-telemetry: 1
+      - name: Get pods
+        run: kubectl get pods -A

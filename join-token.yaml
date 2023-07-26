@@ -1,0 +1,11 @@
+kind: token
+version: v2
+metadata:
+  name: machineid-buildx-demo
+spec:
+  roles: [Bot]
+  join_method: github
+  bot_name: machineid-buildx-demo
+  github:
+    allow:
+      - repository: strideynet/machineid-buildx-demo
