@@ -30,6 +30,6 @@ jobs:
           certificate-ttl: 1h
           # Enable the submission of anonymous usage telemetry.
           anonymous-telemetry: 1
-          kubernetes-cluster: gke-2
+          kubernetes-cluster: gke2
       - name: Get pods
         run: kubectl get pods -A
